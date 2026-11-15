@@ -15,7 +15,7 @@ Develop the cosmic-to-creature simulation against `docs/blueprint.md`. Deliver s
 The interactive experiment currently runs JavaScript, while `rust-core` is a separate native implementation; they are not yet a shared core. The planet's colors, cloud-like marks and sizes are illustrative. The star is fixed and the particle is massless. Avoid representing color, climate, formation, chemistry or life as outcomes of this model. Use SI internally and state units at boundaries. Never use camera or frame rate to advance simulated physics. See `docs/blueprint.md` for conservation and provenance contracts.
 
 ## Priority queue
-1. Verify Rust tests in an environment with stable Rust and compare selected states against JS fixtures; move the browser simulation to Rust/Wasm with a reproducible build, and retain a JavaScript-free physics path.
+1. Compare selected Rust and JS states against shared fixtures; move the browser simulation to Rust/Wasm with a reproducible build, and retain a JavaScript-free physics path. The initial Rust suite passed in GitHub Actions; recheck it after changes.
 2. Add explicit checkpoint, event log, replay and versioned manifest with deterministic same-build checks and numeric cross-platform tolerances.
 3. Improve gravity model, energy and angular-momentum convergence, domain validation and close-encounter handling; compare with a named independent reference.
 4. Only then expand into camera/atmosphere and later gates with measured acceptance cases and known limitations.
