@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#091116">
+  <meta name="description" content="Explore a small gravity and starlight experiment from the SIM cosmic-to-creature blueprint.">
+  <title>SIM — Cosmic Observatory</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a href="#top" class="brand" aria-label="SIM Cosmic Observatory home"><span class="brand-mark"><i></i></span><span>SIM<span class="brand-small"> / COSMIC OBSERVATORY</span></span></a>
+    <nav aria-label="Main navigation"><a class="nav-active" href="#experiment">The experiment</a><a href="#roadmap">The bigger picture</a><a class="source-link" href="https://github.com/Bannon-github/Universe-Simulation" target="_blank" rel="noopener noreferrer">View source <span aria-hidden="true">↗</span></a></nav>
+  </header>
+  <main id="top">
+    <section class="intro page-wrap">
+      <div><p class="eyebrow"><span class="status-dot"></span> A LIVING RESEARCH PROJECT <span class="eyebrow-index">/ EXPERIMENT 01</span></p>
+        <h1>From the cosmos<br><em>to a living world.</em></h1>
+        <p class="intro-copy">A universe of cause and effect, explored one experiment at a time. Begin with the gravity and light that shape a planet’s journey.</p>
+        <a class="text-link" href="#experiment">Enter the observatory <span aria-hidden="true">↘</span></a>
+      </div>
+      <div class="intro-note"><span class="note-icon">✳</span><div><span class="meta-label">THE IDEA</span><p>Follow the story of matter, energy, and life—across scales and through time.</p></div></div>
+    </section>
+
+    <section id="experiment" class="experiment page-wrap" aria-labelledby="experiment-title">
+      <div class="section-head"><div><p class="eyebrow">THE OBSERVATORY <span class="eyebrow-index">/ 01</span></p><h2 id="experiment-title">One star. One planet.</h2><p>Change the starting conditions and see what gravity does.</p></div><div class="model-badge"><span class="status-dot"></span> INTERACTIVE MODEL <span class="model-badge-line">NEWTONIAN GRAVITY</span></div></div>
+      <div class="workspace">
+        <div class="viewport-column">
+          <div class="viewport" id="viewport">
+            <canvas id="scene" aria-label="Schematic view of a planet orbiting a star" role="img"></canvas>
+            <div class="view-top"><span>SIMULATION VIEW <b>01</b></span><span><i class="green-dot"></i> <span id="running-label">RUNNING</span></span></div>
+            <div class="view-bottom"><span><i class="legend-line"></i> TRAJECTORY</span><span><i class="legend-ring"></i> INITIAL DISTANCE</span><span class="scale-note">SIZES EXAGGERATED · SCHEMATIC VIEW</span></div>
+            <div class="view-overlay" aria-hidden="true"><div class="view-name">A world in motion</div><div class="view-subtitle">A close-up experiment in gravity & light</div></div>
+          </div>
+          <div class="transport"><div class="transport-buttons"><button id="play" class="play-button" type="button" aria-label="Pause simulation">❚❚ <span>Pause</span></button><button id="step" type="button">Step +1 day</button><button id="reset" type="button">Reset</button></div><div class="speed-control"><label for="speed">SPEED</label><select id="speed"><option value="5">5 days / sec</option><option value="20" selected>20 days / sec</option><option value="60">60 days / sec</option></select></div></div>
+          <div class="metrics" aria-live="off"><div><span>ELAPSED TIME</span><strong id="time">0.0 <small>days</small></strong></div><div><span>DISTANCE FROM STAR</span><strong id="distance">1.000 <small>AU</small></strong></div><div><span>STARLIGHT AT PLANET</span><strong id="flux">1,361 <small>W/m²</small></strong></div><div><span>ENERGY DRIFT</span><strong id="drift">0.00e+0</strong></div></div>
+        </div>
+        <aside class="controls" aria-labelledby="controls-title"><div class="controls-heading"><div><p class="eyebrow">MAKE AN EXPERIMENT</p><h3 id="controls-title">Starting conditions</h3></div><span class="control-symbol">⌁</span></div><p class="control-intro">Adjust these inputs to start a new run. The planet begins with a sideways velocity.</p>
+          <div class="slider-field"><div class="label-row"><label for="radius">Starting distance</label><output id="radius-value" for="radius">1.00 AU</output></div><input id="radius" type="range" min="0.6" max="1.4" step="0.05" value="1"><div class="range-ends"><span>0.60 AU</span><span>1.40 AU</span></div></div>
+          <div class="slider-field"><div class="label-row"><label for="velocity">Starting velocity</label><output id="velocity-value" for="velocity">100%</output></div><input id="velocity" type="range" min="75" max="125" step="5" value="100"><div class="range-ends"><span>75%</span><span>125%</span></div><p class="field-hint">Relative to circular orbit speed at this distance.</p></div>
+          <div class="divider"></div>
+          <div class="inspector-heading"><span>LIVE INSPECTOR</span><span>↗</span></div>
+          <div class="inspect-tabs" role="tablist" aria-label="Inspect object"><button type="button" class="selected" role="tab" aria-selected="true" id="planet-tab">Planet</button><button type="button" role="tab" aria-selected="false" id="star-tab">Star</button></div>
+          <div class="inspect-panel" id="inspect-panel"></div>
+          <button id="export" type="button" class="export-button">↓ &nbsp; Export run data</button>
+        </aside>
+      </div>
+      <div class="experiment-foot"><div><span class="foot-icon">i</span><p><strong>What you’re seeing</strong> The orbit is calculated using a fixed-star, two-body approximation. The scene is an illustration: body sizes and planet color are chosen for clarity.</p></div><a href="#model-notes">How the model works <span aria-hidden="true">↗</span></a></div>
+    </section>
+    <section class="context-section page-wrap" id="model-notes"><div class="context-heading"><p class="eyebrow">BEHIND THE VIEW <span class="eyebrow-index">/ THE MODEL</span></p><h2>Curiosity, with<br><em>its workings visible.</em></h2><p>Every result starts with assumptions. This first experiment makes them easy to inspect.</p></div><div class="context-grid"><article><span>01 / GRAVITY</span><h3>A path, not a preset.</h3><p>Newtonian gravity changes the planet’s velocity at each fixed one-day step. A velocity Verlet integrator advances the trajectory.</p></article><article><span>02 / STARLIGHT</span><h3>Light follows distance.</h3><p>A Sun-like star supplies a blackbody luminosity. The planet’s incident flux falls with the square of its distance.</p></article><article><span>03 / HONEST LIMITS</span><h3>A starting point.</h3><p>The star is fixed; additional planets, collisions, clouds, chemistry and life are not yet simulated. Energy drift is a numerical diagnostic, not a guarantee of accuracy.</p></article></div></section>
+    <section class="roadmap page-wrap" id="roadmap"><div><p class="eyebrow">THE LONG VIEW <span class="eyebrow-index">/ WHAT COMES NEXT</span></p><h2>A small beginning.<br><em>A much larger story.</em></h2><p>The blueprint follows matter from early cosmic environments toward stars, planets, chemistry and evolving creatures. Each stage needs its own models and validation.</p><a class="text-link" href="https://github.com/Bannon-github/Universe-Simulation/blob/master/docs/blueprint.md" target="_blank" rel="noopener noreferrer">Read the blueprint <span aria-hidden="true">↗</span></a></div><div class="roadmap-list"><div class="roadmap-row current"><span>01</span><strong>Orbits & light</strong><em>EXPLORING NOW</em></div><div class="roadmap-row"><span>02</span><strong>Atmosphere & camera</strong><em>PLANNED</em></div><div class="roadmap-row"><span>03</span><strong>Impacts & planetary history</strong><em>PLANNED</em></div><div class="roadmap-row"><span>04</span><strong>Chemistry & living systems</strong><em>RESEARCH</em></div></div></section>
+  </main>
+  <footer class="site-footer page-wrap"><div class="footer-brand">SIM <span> / COSMIC OBSERVATORY</span></div><p>Built to explore. Designed to be questioned.</p><a href="https://github.com/Bannon-github/Universe-Simulation" target="_blank" rel="noopener noreferrer">GitHub ↗</a></footer>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
