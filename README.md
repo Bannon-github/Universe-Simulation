@@ -19,9 +19,10 @@ The browser demo needs no package installation. Serve `dist/` with any static HT
 npm run check
 npm test
 cargo test --manifest-path rust-core/Cargo.toml --locked
+npm run test:parity
 ```
 
-The JS tests cover a solar flux/temperature fixture, a near-circular orbit, energy convergence as the timestep is reduced, conserved angular momentum, deterministic replay, and invalid inputs. The Rust crate has analogous native tests. GitHub Actions runs both suites on pushes, pull requests, manual dispatch and a daily schedule. Check the actual run status before claiming a test passed.
+The JS tests cover a solar flux/temperature fixture, a near-circular orbit, energy convergence as the timestep is reduced, conserved angular momentum, deterministic replay, and invalid inputs. The Rust crate has analogous native tests. The parity command runs the native Rust example and compares it with the JavaScript implementation across circular, eccentric and faster trajectories, including state, energy, angular momentum and flux. It requires Cargo and applies documented absolute and relative tolerances; parity is not independent physical validation. GitHub Actions runs both suites on pushes, pull requests, manual dispatch and a daily schedule. Check the actual run status before claiming a test passed.
 
 ## Architecture and current handoff
 
