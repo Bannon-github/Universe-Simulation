@@ -1,4 +1,11 @@
-# Handoff — 15 November 2026
+# Handoff — 16 November 2026
+
+## Rust/JavaScript parity baseline
+
+The isolated `codex/wasm-orbit-20261116` branch adds a native Rust/JavaScript trajectory comparison: three starting conditions, five fixed-step checkpoints, SI state and diagnostics, with relative tolerance `1e-11` and unit-specific absolute floors documented in `scripts/test-parity.mjs`. This tests agreement, not independent physical correctness. The browser still uses JavaScript; no Wasm integration or new site deployment is claimed.
+
+Locally `npm run check` and `npm test` passed. The local environment lacks Cargo: `cargo test --manifest-path rust-core/Cargo.toml --locked` reported `cargo: command not found` and `npm run test:parity` reported `spawnSync cargo ENOENT`. Both commands passed in [GitHub Actions run 43911082825](https://github.com/Bannon-github/Universe-Simulation/actions/runs/43911082825) for commit `216ff58328803b21f03c377e25c79b716705e8d1`. Recheck CI for the actual head before integration. Next: use the parity baseline to build and load the Rust core as WebAssembly, preserve and test export/replay, run browser checks, and publish and verify the public site. No site assets changed in the parity task.
+
 
 ## Goal
 Ship a tested, reproducible foundation for a cosmic-to-creature simulation, starting with a measurable orbit-and-light demo. The blueprint defines later gates and their acceptance evidence.
