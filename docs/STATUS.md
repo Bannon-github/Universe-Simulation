@@ -1,4 +1,11 @@
-# Handoff — 16 November 2026
+# Handoff — 17 November 2026
+
+## WebAssembly core in progress
+
+Branch `codex/wasm-core-20261117` adds a Wasm-only handle ABI over the Rust orbit state, a Rust 1.85.1 and `wasm32-unknown-unknown` build, and a Node test comparing compiled Wasm against the native Rust fixture across three trajectories and five checkpoints. The comparison uses relative tolerance `1e-11` and SI-unit absolute floors, and checks same-build deterministic stepping, independent handles and invalid input. It is parity evidence, not independent validation.
+
+`npm run check` and `npm test` passed locally. Cargo and Rust are unavailable locally; CI must build and test the Wasm module before integration. Reproduce with `cargo test --manifest-path rust-core/Cargo.toml --locked`, `npm run test:parity`, `npm run build:wasm`, and `npm run test:wasm`. Browser integration, export/replay, browser tests and deployment remain. The live site still uses JavaScript.
+
 
 ## Rust/JavaScript parity baseline
 

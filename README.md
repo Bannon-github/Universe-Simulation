@@ -20,15 +20,17 @@ npm run check
 npm test
 cargo test --manifest-path rust-core/Cargo.toml --locked
 npm run test:parity
+npm run build:wasm
+npm run test:wasm
 ```
 
-The JS tests cover a solar flux/temperature fixture, a near-circular orbit, energy convergence as the timestep is reduced, conserved angular momentum, deterministic replay, and invalid inputs. The Rust crate has analogous native tests. The parity command runs the native Rust example and compares it with the JavaScript implementation across circular, eccentric and faster trajectories, including state, energy, angular momentum and flux. It requires Cargo and applies documented absolute and relative tolerances; parity is not independent physical validation. GitHub Actions runs both suites on pushes, pull requests, manual dispatch and a daily schedule. Check the actual run status before claiming a test passed.
+The JS tests cover a solar flux/temperature fixture, a near-circular orbit, energy convergence as the timestep is reduced, conserved angular momentum, deterministic replay, and invalid inputs. The Rust crate has analogous native tests. The parity command runs the native Rust example and compares it with the JavaScript implementation across circular, eccentric and faster trajectories, including state, energy, angular momentum and flux. It requires Cargo and applies documented absolute and relative tolerances; parity is not independent physical validation. The Wasm build uses Rust 1.85.1 and the `wasm32-unknown-unknown` target, pinned in `rust-toolchain.toml`; Rustup can install these from that file. `npm run test:wasm` compares the built module with the native Rust fixture and tests independent handles and same-build replay. The module is a build artifact and is not yet connected to the browser. GitHub Actions runs these suites on pushes, pull requests, manual dispatch and a daily schedule. Check the actual run status before claiming a test passed.
 
 ## Architecture and current handoff
 
 - `dist/sim.js`: authoritative numerical implementation **for this browser prototype**, explicitly independent of rendering.
 - `dist/app.js`, `dist/styles.css`, `dist/index.html`: browser controls, instrumentation and schematic canvas.
-- `rust-core/`: independent Rust reference implementation. It is **not yet called by the browser**. Replace the duplicated JS physics with a Rust-to-Wasm core after parity tests and browser integration.
+- `rust-core/`: Rust reference implementation with a Wasm ABI. It is **not yet called by the browser**. Replace the duplicated JS physics with a Rust-to-Wasm core after parity tests and browser integration.
 - `tests/orbit.test.js`: browser-model numerical tests, runnable with Node's built-in test runner.
 - `docs/blueprint.md`: scientific vision and gated validation plan.
 - `docs/STATUS.md` and `AGENTS.md`: continuation, verification, and collaboration instructions.
