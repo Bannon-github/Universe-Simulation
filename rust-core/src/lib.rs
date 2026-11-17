@@ -1,5 +1,8 @@
 //! A planar test particle orbiting a fixed star, in SI units.
 //! This native reference is not yet connected to the JavaScript demo.
+#[cfg(target_arch = "wasm32")]
+mod wasm;
+
 use std::f64::consts::PI;
 
 pub const G: f64 = 6.674_30e-11;

@@ -1,4 +1,11 @@
-# Handoff — 16 November 2026
+# Handoff — 17 November 2026
+
+## WebAssembly core baseline
+
+The `codex/wasm-core-20261117` change adds a Wasm-only handle ABI over the Rust orbit state, a Rust 1.85.1 and `wasm32-unknown-unknown` build, and a Node test comparing compiled Wasm against the native Rust fixture across three trajectories and five checkpoints. The comparison uses relative tolerance `1e-11` and SI-unit absolute floors, and checks same-build deterministic stepping, independent handles and invalid input. It is parity evidence, not independent validation.
+
+`npm run check` and `npm test` passed locally. Cargo and Rust are unavailable locally (`cargo: command not found`; `npm run build:wasm` reports `cargo: not found`). [GitHub Actions run 44125453674](https://github.com/Bannon-github/Universe-Simulation/actions/runs/44125453674) passed the native tests, native/JS parity, Wasm build and Wasm/native parity for commit `a2b56284169ced7ea35f294e1ff6e418f41cd6ad`; it uploaded the `sim-orbit-wasm` artifact. Recheck CI for the actual head before integration. Reproduce with `cargo test --manifest-path rust-core/Cargo.toml --locked`, `npm run test:parity`, `npm run build:wasm`, and `npm run test:wasm`. Next: add a browser-side wrapper with safe handle lifecycle, load the compiled artifact, replace JS physics, preserve and exercise export/replay, test failure handling and controls in a real browser, then publish and verify the site. The live site still uses JavaScript.
+
 
 ## Rust/JavaScript parity baseline
 
@@ -24,7 +31,7 @@ Ship a tested, reproducible foundation for a cosmic-to-creature simulation, star
 - Energy is approximate and the current UI's one-day timestep has not yet been validated across the full slider range or close encounters.
 
 ## Next bounded task
-Compare Rust/JS fixtures over multiple trajectories and integrate the tested Rust core into the browser via WebAssembly. Preserve deterministic stepping and add a CI parity test. Document the chosen build chain, version, artifacts and any precision differences. Keep visual styling and physical state separate.
+Integrate the tested Rust/Wasm core into the browser with safe handle ownership and an explicit loading failure state. Preserve deterministic stepping and versioned export/replay; add real-browser checks and publish the tested revision. Keep visual styling and physical state separate.
 
 ## Continuity and conflict handling
 Before starting, inspect current remote heads, CI runs and in-flight work. Claim a small task and use an isolated branch. If another change lands, reconcile against the new head without force-pushing. If a check fails or a machine cannot run it, retain the failing command and output, make a small reproducible test case, and update this file before stopping. If no progress occurs in a scheduled check, identify one concrete blocker or pick the next independent task. Daily CI is a signal, not a worker. A separate daily continuation task is scheduled toward the initial Rust/Wasm milestone; each run must inspect current work and record evidence rather than assuming it can proceed.

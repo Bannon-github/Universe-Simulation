@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.js",
-    "check": "node --check dist/app.js && node --check dist/sim.js && node --check scripts/test-parity.mjs",
-    "test:parity": "node scripts/test-parity.mjs"
+    "check": "node --check dist/app.js && node --check dist/sim.js && node --check scripts/test-parity.mjs && node --check scripts/test-wasm.mjs",
+    "test:parity": "node scripts/test-parity.mjs",
+    "build:wasm": "cargo build --locked --release --manifest-path rust-core/Cargo.toml --target wasm32-unknown-unknown",
+    "test:wasm": "node scripts/test-wasm.mjs"
   }
 }
