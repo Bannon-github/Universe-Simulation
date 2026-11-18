@@ -1,4 +1,11 @@
-# Handoff — 17 November 2026
+# Handoff — 18 November 2026
+
+## Browser WebAssembly integration in progress
+
+Branch `codex/browser-wasm-20261118` connects the Rust Wasm core to the browser, adds validated versioned export/replay and an explicit physics-loading failure state, plus wrapper and browser checks. The checked-in Wasm came from the pinned build on master at `fbfc52fde008e0d16866fb5b6e3caa7ab9fec150` (Actions run 44331516049). `npm run check` and `npm test` passed locally. Rust/Cargo are unavailable locally, so `cargo test --manifest-path rust-core/Cargo.toml --locked`, `npm run test:parity`, `npm run build:wasm`, and `npm run test:wasm` must be checked in CI. Browser automation and artifact reproducibility must also pass in CI before integration. The public site remains the prior JavaScript version until publication and live verification.
+
+Next: inspect exact-head CI, reconcile failures, merge without force, synchronize the separate Sites source and publish the verified build, then check the live Wasm module, controls and replay. Do not claim a deployment before evidence.
+
 
 ## WebAssembly core baseline
 
@@ -17,7 +24,7 @@ Locally `npm run check` and `npm test` passed. The local environment lacks Cargo
 ## Goal
 Ship a tested, reproducible foundation for a cosmic-to-creature simulation, starting with a measurable orbit-and-light demo. The blueprint defines later gates and their acceptance evidence.
 
-## Implemented in this baseline
+## Implemented in the original baseline (historical)
 - Static browser observatory with distance and velocity controls, play/pause, single-day step, reset, speed, inspection and JSON export.
 - A two-dimensional fixed-star, massless-planet Newtonian model with velocity Verlet, solar luminosity approximation, flux and albedo-based equilibrium temperature. Rendering is schematic; the planet's color is supplied, and there is no atmosphere, formation or life model.
 - A separate Rust 2024 reference implementation and native tests. **It is not wired to the site.**

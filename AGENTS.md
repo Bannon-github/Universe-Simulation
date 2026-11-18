@@ -12,10 +12,10 @@ Develop the cosmic-to-creature simulation against `docs/blueprint.md`. Deliver s
 6. If a test or process fails, reproduce the failure, contain it, and leave an actionable handoff with failing command and last known good revision. If progress stalls, select an unblocked task or report the specific blocker; do not silently mark the milestone complete. Re-check open branches/leases before retrying.
 
 ## Scientific boundaries
-The interactive experiment currently runs JavaScript, while `rust-core` is a separate native implementation; they are not yet a shared core. The planet's colors, cloud-like marks and sizes are illustrative. The star is fixed and the particle is massless. Avoid representing color, climate, formation, chemistry or life as outcomes of this model. Use SI internally and state units at boundaries. Never use camera or frame rate to advance simulated physics. See `docs/blueprint.md` for conservation and provenance contracts.
+The interactive experiment runs the Rust core compiled to WebAssembly; the legacy JavaScript model is retained only as a test reference. The planet's colors, cloud-like marks and sizes are illustrative. The star is fixed and the particle is massless. Avoid representing color, climate, formation, chemistry or life as outcomes of this model. Use SI internally and state units at boundaries. Never use camera or frame rate to advance simulated physics. See `docs/blueprint.md` for conservation and provenance contracts.
 
 ## Priority queue
-1. Compare selected Rust and JS states against shared fixtures; move the browser simulation to Rust/Wasm with a reproducible build, and retain a JavaScript-free physics path. The initial Rust suite passed in GitHub Actions; recheck it after changes.
+1. Maintain and verify the Rust/Wasm browser path and its parity, reproducible build, replay, browser and deployment checks. Inspect current CI before claiming success.
 2. Add explicit checkpoint, event log, replay and versioned manifest with deterministic same-build checks and numeric cross-platform tolerances.
 3. Improve gravity model, energy and angular-momentum convergence, domain validation and close-encounter handling; compare with a named independent reference.
 4. Only then expand into camera/atmosphere and later gates with measured acceptance cases and known limitations.
