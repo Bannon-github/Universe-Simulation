@@ -1,8 +1,8 @@
 # Handoff — 18 November 2026
 
-## Browser WebAssembly integration in progress
+## Browser WebAssembly integration
 
-Branch `codex/browser-wasm-20261118` connects the Rust Wasm core to the browser, adds validated versioned export/replay and an explicit physics-loading failure state, plus wrapper and browser checks. The checked-in Wasm came from the pinned build on master at `fbfc52fde008e0d16866fb5b6e3caa7ab9fec150` (Actions run 44331516049). `npm run check` and `npm test` passed locally. Rust/Cargo are unavailable locally, so `cargo test --manifest-path rust-core/Cargo.toml --locked`, `npm run test:parity`, `npm run build:wasm`, and `npm run test:wasm` must be checked in CI. Browser automation and artifact reproducibility must also pass in CI before integration. The public site remains the prior JavaScript version until publication and live verification.
+Branch `codex/browser-wasm-20261118` connects the Rust Wasm core to the browser, adds validated versioned export/replay and an explicit physics-loading failure state, plus wrapper and browser checks. The checked-in Wasm came from the pinned build on master at `fbfc52fde008e0d16866fb5b6e3caa7ab9fec150` (Actions run 44331516049). `npm run check` and `npm test` passed locally. Rust/Cargo are unavailable locally. [Actions run 44345981825](https://github.com/Bannon-github/Universe-Simulation/actions/runs/44345981825) passed native Rust tests, native/JS and Wasm/native parity, a byte-for-byte Wasm rebuild, and Chrome checks covering pause, reset, step, export/replay and missing-module failure for commit `06d561965a32a345bb0e9d4bb12c0530785e0081`. Recheck the actual branch head before integrating. The public site remains the prior JavaScript version until publication and live verification.
 
 Next: inspect exact-head CI, reconcile failures, merge without force, synchronize the separate Sites source and publish the verified build, then check the live Wasm module, controls and replay. Do not claim a deployment before evidence.
 
