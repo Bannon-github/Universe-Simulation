@@ -2,7 +2,7 @@
 // This is an implementation parity check, not independent physical validation.
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
-import {createRun, step, specificEnergy, specificAngularMomentum, stellarFlux, distance, DAY} from '../dist/sim.js';
+import {createRun, step, specificEnergy, specificAngularMomentum, stellarFlux, distance, DAY} from '../tests/support/legacy-sim.js';
 
 const cases = [
   {name:'circular', distance:1, speed:1, dt:DAY},

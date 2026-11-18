@@ -1,4 +1,11 @@
-# Handoff — 17 November 2026
+# Handoff — 18 November 2026
+
+## Browser WebAssembly integration
+
+Branch `codex/browser-wasm-20261118` connects the Rust Wasm core to the browser, adds validated versioned export/replay and an explicit physics-loading failure state, plus wrapper and browser checks. The checked-in Wasm came from the pinned build on master at `fbfc52fde008e0d16866fb5b6e3caa7ab9fec150` (Actions run 44331516049). `npm run check` and `npm test` passed locally. Rust/Cargo are unavailable locally. [Actions run 44345981825](https://github.com/Bannon-github/Universe-Simulation/actions/runs/44345981825) passed native Rust tests, native/JS and Wasm/native parity, a byte-for-byte Wasm rebuild, and Chrome checks covering pause, reset, step, export/replay and missing-module failure for commit `06d561965a32a345bb0e9d4bb12c0530785e0081`. Recheck the actual branch head before integrating. The public site remains the prior JavaScript version until publication and live verification.
+
+Next: inspect exact-head CI, reconcile failures, merge without force, synchronize the separate Sites source and publish the verified build, then check the live Wasm module, controls and replay. Do not claim a deployment before evidence.
+
 
 ## WebAssembly core baseline
 
@@ -17,7 +24,7 @@ Locally `npm run check` and `npm test` passed. The local environment lacks Cargo
 ## Goal
 Ship a tested, reproducible foundation for a cosmic-to-creature simulation, starting with a measurable orbit-and-light demo. The blueprint defines later gates and their acceptance evidence.
 
-## Implemented in this baseline
+## Implemented in the original baseline (historical)
 - Static browser observatory with distance and velocity controls, play/pause, single-day step, reset, speed, inspection and JSON export.
 - A two-dimensional fixed-star, massless-planet Newtonian model with velocity Verlet, solar luminosity approximation, flux and albedo-based equilibrium temperature. Rendering is schematic; the planet's color is supplied, and there is no atmosphere, formation or life model.
 - A separate Rust 2024 reference implementation and native tests. **It is not wired to the site.**

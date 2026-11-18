@@ -1,0 +1,30 @@
+import {chromium} from 'playwright';
+import {createServer} from 'node:http';
+import {readFile} from 'node:fs/promises';
+import {resolve,extname} from 'node:path';
+import assert from 'node:assert/strict';
+const root=resolve('dist');
+const server=createServer(async(req,res)=>{try{const path=resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(!path.startsWith(root+'/'))throw Error();const file=path.endsWith('/')?path+'index.html':path;const data=await readFile(file);res.setHeader('Content-Type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.wasm':'application/wasm'})[extname(file)]||'application/octet-stream');res.end(data)}catch{res.writeHead(404).end()}});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));
+const origin=`http://127.0.0.1:${server.address().port}`;
+let browser;
+try{
+ browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||'/usr/bin/google-chrome',args:['--no-sandbox']});
+ const page=await browser.newPage({acceptDownloads:true});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(origin+'/index.html');await page.waitForFunction(()=>document.documentElement.dataset.physicsReady==='true');await page.locator('#play').click();await page.locator('#reset').click();
+ assert.match(await page.locator('#time').innerText(),/^0\s+days/);
+ await page.locator('#step').click();await page.locator('#step').click();
+ assert.match(await page.locator('#time').innerText(),/^2\s+days/);
+ const [download]=await Promise.all([page.waitForEvent('download'),page.locator('#export').click()]);
+ const saved=JSON.parse(await readFile(await download.path(),'utf8'));
+ assert.equal(saved.model,'fixed-star-verlet-rust-wasm-0.1.0');assert.equal(saved.step_count,2);
+ await page.locator('#reset').click();await page.locator('#replay').setInputFiles({name:'run.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(saved))});
+ await page.waitForFunction(()=>document.querySelector('#time').textContent.trim().startsWith('2'));
+ assert.equal(await page.locator('#running-label').innerText(),'PAUSED');
+ await page.locator('#star-tab').click();assert.match(await page.locator('#inspect-panel').innerText(),/Luminosity/);
+ assert.deepEqual(errors,[]);
+ const broken=await browser.newPage();await broken.route('**/sim_orbit_core.wasm',route=>route.fulfill({status:404,body:'missing'}));
+ await broken.goto(origin+'/index.html');await broken.waitForSelector('text=Unable to load the simulation physics');
+ assert.equal(await broken.locator('#step').isDisabled(),true);assert.match(await broken.locator('#running-label').innerText(),/UNAVAILABLE/);
+ console.log('PASS browser controls, Wasm export/replay and missing-module failure');
+} finally {if(browser)await browser.close();server.close()}

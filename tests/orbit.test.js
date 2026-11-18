@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createRun,step,distance,specificEnergy,specificAngularMomentum,stellarFlux,equilibriumTemperature,energyDrift,exportRun,AU,DAY,MU} from '../dist/sim.js';
+import {createRun,step,distance,specificEnergy,specificAngularMomentum,stellarFlux,equilibriumTemperature,energyDrift,exportRun,AU,DAY,MU} from './support/legacy-sim.js';
 
 test('solar fixture yields approximately 1361 W/m² and 255 K',()=>{
   const flux=stellarFlux(AU);
